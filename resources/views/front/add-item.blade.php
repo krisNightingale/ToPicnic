@@ -47,7 +47,12 @@
                     <p>Bills</p>
                 </a>
             </li>
-
+            <li>
+                <a href="{{ url('/picnic/'.$picnic->id.'/edit')}}">
+                    <i class="ti-pencil"></i>
+                    <p>Edit picnic</p>
+                </a>
+            </li>
             <li class="active-pro">
                 <a href="#">
                     <i class="ti-archive"></i>
@@ -63,7 +68,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    <h4 style="margin-top: 0px;"><i class="ti-bookmark"></i> New Year</h4>
+                    <h4 style="margin-top: 0px;"><i class="ti-bookmark"></i> {{$picnic->name}}</h4>
                 </a>
             </div>
             <div class="collapse navbar-collapse">
@@ -71,11 +76,19 @@
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="ti-user"></i>
-                            <p>My Profile</p>
+                            <p>{{ Auth::user()->nickname }}</p>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Log out</a></li>
+                            <li><a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    Log out
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
                             <li><a href="#"><i class="ti-settings"></i> Settings</a></li>
                         </ul>
                     </li>
@@ -83,10 +96,10 @@
             </div>
             <div class="row" style="padding: 10px;">
                 <div class="col-md-4 col-sm-4" >
-                    <p style="padding-top: 10px;"><i class="fa fa-clock-o" aria-hidden="true"></i> 12:00 Saturday</p>
+                    <p style="padding-top: 10px;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{date("D M j G:i", strtotime($picnic->start_time->toDateTimeString()))}}</p>
                 </div>
                 <div class="col-md-8 col-sm-8" >
-                    <p style="padding-top: 10px;"><i class="fa fa-users" aria-hidden="true"></i> 15 members</p>
+                    <p style="padding-top: 10px;"><i class="fa fa-users" aria-hidden="true"></i> {{$picnic->membersCount()}} members</p>
                 </div>
             </div>
             <div class="row">
@@ -111,6 +124,7 @@
                             <p class="category">Enter data</p>
                         </div>
                         <div class="content">
+                            {!! Form::open(['url' => '/picnic/'.$picnic->id.'/items', 'files' => true]) !!}
                             <br/>
                             <div class="row">
                                 <div class="col-xs-2">
@@ -118,7 +132,11 @@
                                 </div>
                                 <div class="col-xs-9">
                                     <div class="form-group">
-                                        <input type="text" value="" placeholder="Name" class="form-control" style="background-color: #ecf5ef;"/>
+                                        {!! Form::text('name', null, ['class' => 'form-control',
+                                        'required' => 'required',
+                                        'placeholder' => 'Name',
+                                        'style' => "background-color: #ecf5ef;"]) !!}
+                                        {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                                     </div>
                                 </div>
                             </div>
@@ -128,19 +146,24 @@
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="input-group">
-                                        <input type="text" placeholder="Price" class="form-control" style="background-color: #ecf5ef;">
+                                        {!! Form::text('price', null, ['class' => 'form-control',
+                                        'required' => 'required',
+                                        'placeholder' => 'Price',
+                                        'style' => "background-color: #ecf5ef;"]) !!}
                                         <span class="input-group-addon" style="background-color: #ecf5ef;">
                                                 <i class="fa fa-money" style="font-size: 25px;"></i>
                                             </span>
+                                        {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <br/>
                                 <div class="col-xs-6">
-                                    <button class="btn btn-success">Add</button>
+                                    {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Add', ['class' => 'btn btn-success']) !!}
                                 </div>
                             </div>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                 </div>

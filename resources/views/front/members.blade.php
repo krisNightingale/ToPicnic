@@ -47,7 +47,12 @@
                     <p>Bills</p>
                 </a>
             </li>
-
+            <li>
+                <a href="{{ url('/picnic/'.$picnic->id.'/edit')}}">
+                    <i class="ti-pencil"></i>
+                    <p>Edit picnic</p>
+                </a>
+            </li>
             <li class="active-pro">
                 <a href="#">
                     <i class="ti-archive"></i>

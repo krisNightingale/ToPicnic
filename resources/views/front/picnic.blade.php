@@ -52,7 +52,12 @@
                         <p>Bills</p>
                     </a>
                 </li>
-
+                <li>
+                    <a href="{{ url('/picnic/'.$picnic->id.'/edit')}}">
+                        <i class="ti-pencil"></i>
+                        <p>Edit picnic</p>
+                    </a>
+                </li>
                 <li class="active-pro">
                     <a href="#">
                         <i class="ti-archive"></i>
@@ -140,9 +145,13 @@
                                             <div class="col-xs-offset-2 col-xs-10">
                                                 <div class="icon-big icon-success">
                                                     @if(Auth::user()->subscribedOnItem($item->id))
-                                                        <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                                        <a href="{{ url('/item/'.$item->id.'/unsubscribe') }}" style="color: #7AC29A;">
+                                                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                                        </a>
                                                     @else
-                                                        <i class="fa fa-circle-o" aria-hidden="true"></i>
+                                                        <a href="{{ url('/item/'.$item->id.'/subscribe') }}" style="color: #7AC29A;">
+                                                            <i class="fa fa-circle-o" aria-hidden="true"></i>
+                                                        </a>
                                                     @endif
                                                 </div>
                                             </div>

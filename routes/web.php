@@ -21,7 +21,7 @@ Route::get('/home', function (){
 
 Auth::routes();
 
-Route::group(['prefix' => 'picnic'], function () {
+Route::group(['prefix' => 'picnic', 'middleware' => 'auth'], function () {
     Route::get('/me', 'PicnicController@getMyPicnicList');
     Route::get('/add', 'PicnicController@addPicnic');
     Route::post('/', 'PicnicController@createPicnic');
@@ -33,11 +33,24 @@ Route::group(['prefix' => 'picnic'], function () {
     Route::post('/{id}/members', 'PicnicController@createMember');
     Route::get('/{id}/items/add', 'PicnicController@addItem');
     Route::post('/{id}/items', 'PicnicController@createItem');
+    Route::get('/{id}/edit', 'PicnicController@editPicnic');
+    Route::post('/{id}/edit', 'PicnicController@updatePicnic');
 });
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::get('/me', 'UserController@getCurrentUser');
+    Route::get('/edit', 'UserController@editCurrentUser');
+    Route::post('/me', 'UserController@updateCurrentUser');
     Route::get('/bills', 'UserController@getMyBills');
     Route::get('/friends', 'UserController@getMyFriends');
+    Route::get('/invites', 'UserController@getMyInvitations');
+    Route::get('/debtors', 'UserController@getMyDebtors');
     Route::get('/{id}', 'UserController@getUserById');
 });
+
+Route::group(['prefix' => 'item', 'middleware' => 'auth'], function () {
+    Route::get('/{id}/subscribe', 'BillController@subscribeOnItem');
+    Route::get('/{id}/unsubscribe', 'BillController@unsubscribeFromItem');
+});
+
+Route::get('/users', 'UserController@getAll')->middleware('auth');

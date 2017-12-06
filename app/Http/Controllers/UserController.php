@@ -44,10 +44,48 @@ class UserController extends Controller
     public function getCurrentUser()
     {
         $user = request()->user();
+        return view('front.user')->with(compact('user'));
     }
 
     public function getUserById($id)
     {
         $user = User::find($id);
+        return view('front.user')->with(compact('user'));
+    }
+
+    public function getMyInvitations()
+    {
+
+    }
+
+    public function getMyDebtors()
+    {
+
+    }
+
+    public function getAll()
+    {
+        $users = User::get()->all();
+        return view();
+    }
+
+    public function editCurrentUser()
+    {
+        $user = request()->user();
+        return view('front.edit-user')->with(compact('user'));
+    }
+
+    public function updateCurrentUser()
+    {
+        $this->validate(request(), [
+            'name' => 'required',
+            'nickname' => 'required',
+            'email' => 'required',
+        ]);
+        $userId = request()->user()->id;
+        $user = User::findOrFail($userId);
+        $user->update(request()->all());
+
+        return redirect('/user/me');
     }
 }

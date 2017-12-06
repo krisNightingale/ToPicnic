@@ -102,4 +102,24 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Picnic::class, 'user_picnic');
     }
+
+    public function getMyFriendsIds()
+    {
+        $items = $this->myFriends()->get()->all();
+        $ids = [];
+        foreach ($items as $item){
+            $ids[$item->id] = ['value' => $item->id];
+        }
+        return $ids;
+    }
+
+    public function getMyFriendsNames()
+    {
+        $items = $this->myFriends()->get()->all();
+        $names = [];
+        foreach ($items as $item){
+            $names[$item->id] = $item->name;
+        }
+        return $names;
+    }
 }

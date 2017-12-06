@@ -47,7 +47,12 @@
                     <p>Bills</p>
                 </a>
             </li>
-
+            <li>
+                <a href="{{ url('/picnic/'.$picnic->id.'/edit')}}">
+                    <i class="ti-pencil"></i>
+                    <p>Edit picnic</p>
+                </a>
+            </li>
             <li class="active-pro">
                 <a href="#">
                     <i class="ti-archive"></i>
@@ -143,6 +148,12 @@
                                     <div class="stats" style="float: right;">
                                         <i class="ti-user"></i> to <a href="{{url('/user/'.$bill->getResponsible()->id)}}">{{ $bill->getResponsible()->nickname}}</a>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                    <i class="ti-star"></i> for {{ $bill->getItemName() }}
                                 </div>
                             </div>
                         </div>

@@ -11,7 +11,7 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a href="{{ url('/') }}">
                         <i class="ti-bag"></i>
                         <p>My picnics</p>
@@ -66,15 +66,9 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="{{ url('/') }}">My picnics</a>
+                    <a class="navbar-brand"><i class="ti-user"></i> {{ $user->nickname}}</a>
                 </div>
                 <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <div class="input-group" style="float: left; margin-top: 15px;">
-                            <input type="text" placeholder="Search" class="form-control">
-                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        </div>
-                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -103,55 +97,62 @@
         </nav>
         <div class="content">
             <div class="container-fluid">
-                @foreach($picnics as $picnic)
-                    <div class="row">
-                        <div class="col-md-10">
-                            <a href="{{ url('/picnic/'.$picnic->id) }}">
-                                <div class="card">
-                                    <div class="header">
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <h3 class="title">{{ $picnic->name }}</h3>
-                                                <p class="category">{{ $picnic->place }}</p>
-                                            </div>
-                                            <div class="col-xs-9">
-                                                <div class="numbers">
-                                                    <a href="{{ url('/picnic/'.$picnic->id.'/members') }}">
-                                                        <p><i class="ti-user"></i> Members</p>
-                                                        {{ $picnic->membersCount() }}
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="content">
-                                        <p>{{ $picnic->description }}</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card" style="border-radius: 35px;">
-                                <div class="content">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Edit Profile</h4>
+                            </div>
+                            <div class="content">
+                                {!! Form::open(['url' => '/user/me', 'files' => true]) !!}
                                     <div class="row">
-                                        <div class="col-xs-5">
-                                            <div class="icon-big icon-info text-center">
-                                                <i class="ti-time"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-7">
-                                            <div class="numbers" style="float: left;">
-                                                <p>Days</p>
-                                                {{$picnic->start_time->diffInDays(\Carbon\Carbon::now())}}
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                {!! Form::text('name', $user->name, ['class' => 'form-control',
+                                                   'required' => 'required',
+                                                   'placeholder' => 'Name',
+                                                   'style' => "background-color: #ecf5ef;"]) !!}
+                                                {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Nickname</label>
+                                                {!! Form::text('nickname', $user->nickname, ['class' => 'form-control',
+                                                   'required' => 'required',
+                                                   'placeholder' => 'Nickname',
+                                                   'style' => "background-color: #ecf5ef;"]) !!}
+                                                {!! $errors->first('nickname', '<p class="help-block">:message</p>') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                {!! Form::text('email', $user->email, ['class' => 'form-control',
+                                                   'required' => 'required',
+                                                   'placeholder' => 'Email',
+                                                   'style' => "background-color: #ecf5ef;"]) !!}
+                                                {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Update Profile',
+                                         ['class' => 'btn btn-success btn-fill btn-wd']) !!}
+                                    </div>
+                                    <div class="clearfix"></div>
+                                {!! Form::close() !!}
                             </div>
                         </div>
                     </div>
-                @endforeach
+                </div>
 
             </div>
         </div>

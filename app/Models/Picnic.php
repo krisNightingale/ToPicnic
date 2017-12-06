@@ -56,4 +56,24 @@ class Picnic extends Model
         $members = $this->members()->get()->all();
         return count($members);
     }
+
+    public function getMembersIds()
+    {
+        $items = $this->members()->get()->all();
+        $ids = [];
+        foreach ($items as $item){
+            $ids[$item->id] = ['value' => $item->id];
+        }
+        return $ids;
+    }
+
+    public function getMembersNames()
+    {
+        $items = $this->members()->get()->all();
+        $names = [];
+        foreach ($items as $item){
+            $names[$item->id] = $item->name;
+        }
+        return $names;
+    }
 }

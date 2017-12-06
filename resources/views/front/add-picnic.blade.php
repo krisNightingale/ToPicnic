@@ -40,7 +40,24 @@
                     <p>Add picnic</p>
                 </a>
             </li>
-
+            <li>
+                <a href="{{ url('/user/invites')}}">
+                    <i class="ti-bell"></i>
+                    <p>Invitations</p>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/users')}}">
+                    <i class="fa fa-user-plus"></i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/user/debtors')}}">
+                    <i class="ti-wallet"></i>
+                    <p>My debtors</p>
+                </a>
+            </li>
             <li class="active-pro">
                 <a href="#">
                     <i class="ti-archive"></i>
@@ -55,18 +72,27 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">New picnic</a>
+                <a class="navbar-brand">New picnic</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="ti-user"></i>
-                            <p>My Profile</p>
+                            <p>{{ Auth::user()->nickname }}</p>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Log out</a></li>
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    Log out
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
                             <li><a href="#"><i class="ti-settings"></i> Settings</a></li>
                         </ul>
                     </li>
@@ -79,11 +105,11 @@
 
     <div class="content">
         <div class="container-fluid">
-
+            {!! Form::open(['url' => '/picnic', 'files' => true]) !!}
 
             <div class="row">
                 <div class="col-md-6">
-                    <div class="card" style="height: 430px;">
+                    <div class="card" style="height: 450px;">
                         <div class="header">
                             <h4 class="title">Create new picnic</h4>
                             <p class="category">Enter data</p>
@@ -96,17 +122,37 @@
                                 </div>
                                 <div class="col-xs-8">
                                     <div class="form-group">
-                                        <input type="text" value="" placeholder="Name" class="form-control" style="background-color: #ecf5ef;"/>
+                                        {!! Form::text('name', null, ['class' => 'form-control',
+                                        'required' => 'required',
+                                        'placeholder' => 'Name',
+                                        'style' => "background-color: #ecf5ef;"]) !!}
+                                        {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <p style="padding: 7px;">Select date:</p>
+                                    <p style="padding: 7px;">Place:</p>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="form-group">
+                                        {!! Form::text('place', null, ['class' => 'form-control',
+                                        'placeholder' => 'Place',
+                                        'style' => "background-color: #ecf5ef;"]) !!}
+                                        {!! $errors->first('place', '<p class="help-block">:message</p>') !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <p style="padding: 7px;">Start time:</p>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="input-group">
-                                        <input type="text" placeholder="Date" class="form-control" style="background-color: #ecf5ef;">
+                                        {!! Form::datetimeLocal( 'start_time', date('Y-m-d H:i:s'), ['class' => 'form-control',
+                                        'required' => 'required',
+                                        'style' => "background-color: #ecf5ef;"]) !!}
+                                        {!! $errors->first('time', '<p class="help-block">:message</p>') !!}
                                         <span class="input-group-addon" style="background-color: #ecf5ef;">
                                                 <i class="fa fa-calendar" style="font-size: 25px;"></i>
                                             </span>
@@ -115,13 +161,15 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <p style="padding: 7px;">Select time:</p>
+                                    <p style="padding: 7px;">End time (optional):</p>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="input-group">
-                                        <input type="text" placeholder="Time" class="form-control" style="background-color: #ecf5ef;">
+                                        {!! Form::datetimeLocal( 'end_time', null, ['class' => 'form-control',
+                                        'style' => "background-color: #ecf5ef;"]) !!}
+                                        {!! $errors->first('time', '<p class="help-block">:message</p>') !!}
                                         <span class="input-group-addon" style="background-color: #ecf5ef;">
-                                                <i class="fa fa-clock-o" style="font-size: 25px;"></i>
+                                                <i class="fa fa-calendar-check-o" style="font-size: 25px;"></i>
                                             </span>
                                     </div>
                                 </div>
@@ -131,7 +179,10 @@
                                     <p style="padding: 7px;">Description:</p>
                                 </div>
                                 <div class="col-xs-8">
-                                    <textarea class="form-control" style="background-color: #ecf5ef;" placeholder="Here can be your nice text" rows="3"></textarea>
+                                    {!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => 3,
+                                    'placeholder' => 'Here can be your description',
+                                    'style' => "background-color: #ecf5ef;"]) !!}
+                                    {!! $errors->first('description', '<p class="help-block">:message</p>') !!}
                                 </div>
                             </div>
                         </div>
@@ -139,7 +190,7 @@
                 </div>
 
                 <div class="col-md-5">
-                    <div class="card" style="height: 430px; padding-left: 10px;">
+                    <div class="card" style="height: 450px; padding-left: 10px;">
                         <div class="header">
                             <h4 class="title">Add friends:  <i class="fa fa-user-plus"></i></h4>
                         </div>
@@ -148,13 +199,10 @@
                             <div class="row">
                                 <div class="col-xs-8">
                                     <div class="form-group">
-                                        <select multiple class="form-control" style="height: 320px; font-size: 18px; background-color: #ecf5ef;">
-                                            <option>Olya</option>
-                                            <option>Sasha</option>
-                                            <option>User 3</option>
-                                            <option>User 4</option>
-                                            <option>User 5</option>
-                                        </select>
+                                        {!! Form::select('members[]', $membersNames, null, [
+                                        'style' => "height: 320px; font-size: 18px; background-color: #ecf5ef;",
+                                        'class' => 'form-control', 'multiple' => 'multiple'], $membersIds) !!}
+                                        {!! $errors->first('members', '<p class="help-block">:message</p>') !!}
                                     </div>
                                 </div>
                             </div>
@@ -167,15 +215,13 @@
                     <div class="card" style="border-radius: 50px;">
                         <div class="content">
                             <div class="row text-center">
-
-                                <button class="btn btn-success btn-lg">Add</button>
-
+                                {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Add', ['class' => 'btn btn-success btn-lg']) !!}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            {!! Form::close() !!}
         </div>
     </div>
 @endsection

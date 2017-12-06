@@ -40,7 +40,24 @@
                     <p>Add picnic</p>
                 </a>
             </li>
-
+            <li>
+                <a href="{{ url('/user/invites')}}">
+                    <i class="ti-bell"></i>
+                    <p>Invitations</p>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/users')}}">
+                    <i class="fa fa-user-plus"></i>
+                    <p>Users</p>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url('/user/debtors')}}">
+                    <i class="ti-wallet"></i>
+                    <p>My debtors</p>
+                </a>
+            </li>
             <li class="active-pro">
                 <a href="#">
                     <i class="ti-archive"></i>
