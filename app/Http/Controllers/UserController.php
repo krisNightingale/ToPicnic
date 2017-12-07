@@ -60,13 +60,25 @@ class UserController extends Controller
 
     public function getMyDebtors()
     {
+        $user = request()->user();
+        $items = $user->items()->get()->all();
+        $debtorsBills = [];
+        foreach ($items as $item){
+            $bills = $item->bills()->get()->all();
+            foreach ($bills as $bill){
+                if ($bill->payer_id !== $user->id){
+                    $debtorsBills[] = $bill;
+                }
+            }
+        }
 
+        return view('front.debtors')->with(['bills' => $debtorsBills]);
     }
 
     public function getAll()
     {
         $users = User::get()->all();
-        return view();
+        return view('front.users')->with(compact('users'));
     }
 
     public function editCurrentUser()
@@ -87,5 +99,29 @@ class UserController extends Controller
         $user->update(request()->all());
 
         return redirect('/user/me');
+    }
+
+    public function addToFriends($user_id)
+    {
+        $user = request()->user();
+        $someUser = User::findOrFail($user_id);
+
+        if (!$user->isFriend($someUser->id)){
+            $user->myFriends()->attach($someUser->id);
+        }
+
+        return redirect()->back();
+    }
+
+    public function deleteFromFriends($user_id)
+    {
+        $user = request()->user();
+        $someUser = User::findOrFail($user_id);
+
+        if ($user->isFriend($someUser->id)){
+            $user->myFriends()->detach($someUser->id);
+        }
+
+        return redirect()->back();
     }
 }

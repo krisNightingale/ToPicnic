@@ -85,12 +85,21 @@
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="ti-user"></i>
-                            <p>My Profile</p>
+                            <p>{{ Auth::user()->nickname }}</p>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Log out</a></li>
-                            <li><a href="#"><i class="ti-settings"></i> Settings</a></li>
+                            <li>
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    Log out
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                            <li><a href="{{ url('/user/me') }}"><i class="ti-settings"></i> Settings</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -79,6 +79,17 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isFriend($user_id)
+    {
+        $isFriend = DB::table('friends')->where('initiator_id', '=', request()->user()->id)
+            ->where('consented_id', '=', $user_id)
+            ->get()->first();
+        if ($isFriend){
+            return true;
+        }
+        return false;
+    }
+
 	public function items()
 	{
 		return $this->hasMany(Item::class, 'responsible_id');

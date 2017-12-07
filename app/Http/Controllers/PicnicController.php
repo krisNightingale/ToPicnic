@@ -10,7 +10,7 @@ class PicnicController extends Controller
 {
     public function getMyPicnicList(){
         $user = request()->user();
-        $picnics = $user->picnics()->get()->all();
+        $picnics = $user->picnics()->orderBy('start_time', 'asc')->get()->all();
 
         return view('front.dashboard')->with(compact('picnics'));
     }

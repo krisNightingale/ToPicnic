@@ -45,4 +45,14 @@ class BillController extends Controller
         }
         return redirect('picnic/'.$item->picnic_id);
     }
+
+    public function setPaid($id)
+    {
+        $bill = Bill::findOrFail($id);
+        if (!$bill->is_paid) {
+            $bill->is_paid = true;
+            $bill->update();
+        }
+        return redirect()->back();
+    }
 }

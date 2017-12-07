@@ -46,11 +46,17 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::get('/invites', 'UserController@getMyInvitations');
     Route::get('/debtors', 'UserController@getMyDebtors');
     Route::get('/{id}', 'UserController@getUserById');
+    Route::get('/{id}/friend', 'UserController@addToFriends');
+    Route::get('/{id}/nonfriend', 'UserController@deleteFromFriends');
 });
 
 Route::group(['prefix' => 'item', 'middleware' => 'auth'], function () {
     Route::get('/{id}/subscribe', 'BillController@subscribeOnItem');
     Route::get('/{id}/unsubscribe', 'BillController@unsubscribeFromItem');
+});
+
+Route::group(['prefix' => 'bill', 'middleware' => 'auth'], function () {
+    Route::get('/{id}/paid', 'BillController@setPaid');
 });
 
 Route::get('/users', 'UserController@getAll')->middleware('auth');

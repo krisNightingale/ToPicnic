@@ -3,6 +3,11 @@
 @section('content')
     <div class="sidebar" data-background-color="white" data-active-color="success">
 
+        <!--
+            Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+            Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+        -->
+
         <div class="sidebar-wrapper">
             <div class="logo">
                 <a href="{{ url('/') }}" class="simple-text">
@@ -18,13 +23,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('/user/bills') }}">
+                    <a href="{{url('/user/bills')}}">
                         <i class="ti-ticket"></i>
                         <p>My bills</p>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('/user/friends') }}">
+                    <a href="{{url('/user/friends')}}">
                         <i class="fa fa-users"></i>
                         <p>My friends</p>
                     </a>
@@ -47,7 +52,7 @@
                         <p>Users</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="{{ url('/user/debtors')}}">
                         <i class="ti-wallet"></i>
                         <p>My debtors</p>
@@ -62,11 +67,12 @@
             </ul>
         </div>
     </div>
+
     <div class="main-panel">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand"><i class="ti-user"></i> {{ $user->nickname}}</a>
+                    <a class="navbar-brand" href="#">My debtors</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -83,8 +89,7 @@
                                                      document.getElementById('logout-form').submit();">
                                         Log out
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                          style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
@@ -96,64 +101,57 @@
                 </div>
             </div>
         </nav>
+
+
         <div class="content">
             <div class="container-fluid">
+
                 <div class="row">
-                    <div class="col-lg-4 col-md-4">
-                        <div class="card">
-                            <div class="header">
-                                <div class="row">
-                                    <div class="col-sm-8 col-xs-8">
-                                        <h4 class="title">User info</h4>
+                    @foreach($bills as $bill)
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div>
+                                                <h5 style="font-size: 1.4em; margin-top: 17px;">{{ $bill->getPayerNickname() }}</h5>
+                                                <h5><i class="fa fa-money" aria-hidden="true"></i> {{ $bill->amount }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="row">
+                                                <div class="col-xs-5">
+                                                    <div class="icon-big icon-success">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-7">
+                                                    <div class="icon-big">
+                                                        @if($bill->is_paid)
+                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                        @else
+                                                            <a href="{{ url('/bill/'.$bill->id.'/paid') }}" style="color: #252422;">
+                                                                <i class="fa fa-square-o" aria-hidden="true"></i>
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="stats" style="float: right;">
+                                                <i class="ti-user"></i> to <a href="{{url('/user/me')}}">Me</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-4 col-xs-4" style="height: 30px;">
-                                        @if(Auth::user()->id !== $user->id)
-                                            @if(Auth::user()->isFriend($user->id))
-                                                <a href="{{ url('user/'.$user->id.'/nonfriend') }}">
-                                                    <button class="btn btn-danger">Delete</button>
-                                                </a>
-                                            @else
-                                                <a href="{{ url('user/'.$user->id.'/friend') }}">
-                                                    <button class="btn btn-success">Add</button>
-                                                </a>
-                                            @endif
-                                        @endif
+                                    <div class="footer">
+                                        <hr />
+                                        <div class="stats">
+                                            <i class="ti-star"></i> for {{ $bill->getItemName() }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="content">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Name</label>
-                                        <p>{{ $user->name }}</p>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Nickname</label>
-                                        <p>{{ $user->nickname }}</p>
-                                    </div>
-                                </div>
-                                <br/>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Email</label>
-                                        <p>{{ $user->email }}</p>
-                                    </div>
-                                </div>
-                                <br/>
-                                @if($user->id == Auth::user()->id)
-                                <div class="text-center">
-                                    <a href="{{ url('/user/edit') }}">
-                                        <button class="btn btn-info btn-fill btn-wd">Edit Profile</button>
-                                    </a>
-                                </div>
-                                @endif
-                                <div class="clearfix"></div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
 
             </div>
