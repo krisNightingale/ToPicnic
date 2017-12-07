@@ -34,12 +34,6 @@
                         <p>Add picnic</p>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ url('/user/invites')}}">
-                        <i class="ti-bell"></i>
-                        <p>Invitations</p>
-                    </a>
-                </li>
                 <li class="active">
                     <a href="{{ url('/users')}}">
                         <i class="fa fa-user-plus"></i>

@@ -53,11 +53,6 @@ class UserController extends Controller
         return view('front.user')->with(compact('user'));
     }
 
-    public function getMyInvitations()
-    {
-
-    }
-
     public function getMyDebtors()
     {
         $user = request()->user();

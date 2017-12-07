@@ -43,7 +43,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::post('/me', 'UserController@updateCurrentUser');
     Route::get('/bills', 'UserController@getMyBills');
     Route::get('/friends', 'UserController@getMyFriends');
-    Route::get('/invites', 'UserController@getMyInvitations');
+    //Route::get('/invites', 'UserController@getMyInvitations');
     Route::get('/debtors', 'UserController@getMyDebtors');
     Route::get('/{id}', 'UserController@getUserById');
     Route::get('/{id}/friend', 'UserController@addToFriends');
