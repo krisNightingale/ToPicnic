@@ -76,4 +76,13 @@ class Picnic extends Model
         }
         return $names;
     }
+
+    public function hasMember($user_id)
+    {
+        $hasMember = $this->members()->find($user_id);
+        if ($hasMember){
+            return true;
+        }
+        return false;
+    }
 }

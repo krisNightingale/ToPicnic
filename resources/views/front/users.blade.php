@@ -64,10 +64,15 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
+                        {!! Form::open(['id' => 'searchForm', 'method' => 'GET', 'url' => '/users', 'role' => 'search'])  !!}
                         <div class="input-group" style="float: left; margin-top: 15px;">
-                            <input type="text" placeholder="Search" class="form-control">
-                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-control" name="search" placeholder="Search..." value="{{request('search')}}">
+                            <span class="input-group-addon" onclick="document.forms['searchForm'].submit();">
+                                <i class="fa fa-search"></i>
+                            </span>
+
                         </div>
+                        {!! Form::close() !!}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>

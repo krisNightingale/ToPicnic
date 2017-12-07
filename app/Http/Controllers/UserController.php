@@ -72,7 +72,16 @@ class UserController extends Controller
 
     public function getAll()
     {
-        $users = User::get()->all();
+        $keyword = request()->get('search');
+        $perPage = 20;
+
+        if (!empty($keyword)) {
+            $users = User::where('name', 'LIKE', "%$keyword%")
+                ->orWhere('nickname', 'LIKE', "%$keyword%")
+                ->paginate($perPage);
+        } else {
+            $users = User::paginate($perPage);
+        }
         return view('front.users')->with(compact('users'));
     }
 

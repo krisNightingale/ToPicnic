@@ -99,7 +99,7 @@ class PicnicController extends Controller
         $members = request()->get('members');
 
         for ($i = 0; $i < count($members); $i++){
-            if ($members[$i] != 0)
+            if (($members[$i] != 0) && (!$picnic->hasMember($members[$i])))
                 $picnic->members()->attach($members[$i]);
         }
         return redirect('/picnic/'.$id.'/members')->with('flash_message', 'Member added!');
