@@ -5,14 +5,48 @@ namespace App\Http\Controllers;
 use App\Models\Bill;
 use App\Models\Item;
 use App\Models\Picnic;
+use Carbon\Carbon;
 
 class PicnicController extends Controller
 {
     public function getMyPicnicList(){
+        $keyword = request()->get('search');
+        $perPage = 5;
         $user = request()->user();
-        $picnics = $user->picnics()->orderBy('start_time', 'asc')->get()->all();
+
+        if (!empty($keyword)) {
+            $picnics = $user->picnics()->where('name', 'LIKE', "%$keyword%")
+                ->where('start_time', '>=', now())
+                ->orderBy('start_time', 'asc')
+                ->paginate($perPage);
+        } else {
+            $picnics = $user->picnics()
+                ->where('start_time', '>=', now())
+                ->orderBy('start_time', 'asc')
+                ->paginate($perPage);
+        }
 
         return view('front.dashboard')->with(compact('picnics'));
+    }
+
+    public function getMyPicnicHistory(){
+        $keyword = request()->get('search');
+        $perPage = 5;
+        $user = request()->user();
+
+        if (!empty($keyword)) {
+            $picnics = $user->picnics()->where('name', 'LIKE', "%$keyword%")
+                ->where('start_time', '<', now())
+                ->orderBy('start_time', 'asc')
+                ->paginate($perPage);
+        } else {
+            $picnics = $user->picnics()
+                ->where('start_time', '<', now())
+                ->orderBy('start_time', 'asc')
+                ->paginate($perPage);
+        }
+
+        return view('front.picnic-history')->with(compact('picnics'));
     }
 
     public function addPicnic()

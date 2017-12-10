@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li class="active-pro">
-                    <a href="#">
+                    <a href="{{ url('/picnic/history')}}">
                         <i class="ti-archive"></i>
                         <p>Picnic history</p>
                     </a>
@@ -70,7 +70,6 @@
                             <span class="input-group-addon" onclick="document.forms['searchForm'].submit();">
                                 <i class="fa fa-search"></i>
                             </span>
-
                         </div>
                         {!! Form::close() !!}
                     </ul>

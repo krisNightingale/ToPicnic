@@ -11,7 +11,7 @@
             </div>
 
             <ul class="nav">
-                <li>
+                <li class="active">
                     <a href="{{ url('/') }}">
                         <i class="ti-bag"></i>
                         <p>My picnics</p>
@@ -33,12 +33,6 @@
                     <a href="{{ url('/picnic/add')}}">
                         <i class="ti-plus"></i>
                         <p>Add picnic</p>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="{{ url('/user/invites')}}">
-                        <i class="ti-bell"></i>
-                        <p>Invitations</p>
                     </a>
                 </li>
                 <li>
@@ -66,14 +60,18 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand">My invitations</a>
+                    <a class="navbar-brand" href="{{ url('/picnic/history') }}">My picnics history</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
+                        {!! Form::open(['id' => 'searchForm', 'method' => 'GET', 'url' => '/picnic/history', 'role' => 'search'])  !!}
                         <div class="input-group" style="float: left; margin-top: 15px;">
-                            <input type="text" placeholder="Search" class="form-control">
-                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            <input type="text" class="form-control" name="search" placeholder="Search..." value="{{request('search')}}">
+                            <span class="input-group-addon" onclick="document.forms['searchForm'].submit();">
+                                <i class="fa fa-search"></i>
+                            </span>
                         </div>
+                        {!! Form::close() !!}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
@@ -93,7 +91,7 @@
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
-                                <li><a href="#"><i class="ti-settings"></i> Settings</a></li>
+                                <li><a href="{{ url('/user/me') }}"><i class="ti-settings"></i> Settings</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -103,7 +101,7 @@
         </nav>
         <div class="content">
             <div class="container-fluid">
-                @foreach($invitations as $invitation)
+                @foreach($picnics as $picnic)
                     <div class="row">
                         <div class="col-md-10">
                             <a href="{{ url('/picnic/'.$picnic->id) }}">
@@ -130,6 +128,25 @@
                                     </div>
                                 </div>
                             </a>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card" style="border-radius: 35px;">
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            <div class="icon-big icon-info text-center">
+                                                <i class="ti-time"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-7">
+                                            <div class="numbers" style="float: left;">
+                                                <p>Days</p>
+                                                -{{$picnic->start_time->diffInDays(\Carbon\Carbon::now())}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach

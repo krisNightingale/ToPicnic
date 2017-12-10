@@ -23,6 +23,7 @@ Auth::routes();
 
 Route::group(['prefix' => 'picnic', 'middleware' => 'auth'], function () {
     Route::get('/me', 'PicnicController@getMyPicnicList');
+    Route::get('/history', 'PicnicController@getMyPicnicHistory');
     Route::get('/add', 'PicnicController@addPicnic');
     Route::post('/', 'PicnicController@createPicnic');
     Route::get('/{id}', 'PicnicController@getItems');

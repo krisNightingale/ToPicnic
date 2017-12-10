@@ -36,12 +36,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url('/user/invites')}}">
-                        <i class="ti-bell"></i>
-                        <p>Invitations</p>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ url('/users')}}">
                         <i class="fa fa-user-plus"></i>
                         <p>Users</p>
@@ -54,7 +48,7 @@
                     </a>
                 </li>
                 <li class="active-pro">
-                    <a href="#">
+                    <a href="{{ url('/picnic/history')}}">
                         <i class="ti-archive"></i>
                         <p>Picnic history</p>
                     </a>

@@ -53,7 +53,7 @@
                 </a>
             </li>
             <li class="active-pro">
-                <a href="#">
+                <a href="{{ url('/picnic/history')}}">
                     <i class="ti-archive"></i>
                     <p>Picnic history</p>
                 </a>
@@ -123,7 +123,7 @@
                                 <div class="col-xs-6">
                                     <div>
                                         <h5 style="font-size: 1.4em; margin-top: 17px;">{{ $bill->getItemName() }}</h5>
-                                        <h5><i class="fa fa-money" aria-hidden="true"></i> {{ $bill->amount }}</h5>
+                                        <h5><i class="fa fa-money" aria-hidden="true"></i> {{ intval($bill->amount) }}</h5>
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
