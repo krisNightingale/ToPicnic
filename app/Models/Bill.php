@@ -69,6 +69,11 @@ class Bill extends Model
         return $this->payer()->get()->first()->nickname;
     }
 
+    public function getPayer()
+    {
+        return $this->payer()->get()->first();
+    }
+
     public function getResponsible()
     {
         return $this->item()->get()->first()->getResponsible();

@@ -50,24 +50,31 @@ class UserController extends Controller
     public function getUserById($id)
     {
         $user = User::find($id);
-        return view('front.user')->with(compact('user'));
+        $friends = $user->myFriends()->limit(10)->get()->all();
+
+        return view('front.user')->with(compact('user', 'friends'));
     }
 
     public function getMyDebtors()
     {
         $user = request()->user();
-        $items = $user->items()->get()->all();
-        $debtorsBills = [];
-        foreach ($items as $item){
-            $bills = $item->bills()->get()->all();
-            foreach ($bills as $bill){
-                if ($bill->payer_id !== $user->id){
-                    $debtorsBills[] = $bill;
-                }
-            }
+        $option = request()->query('option');
+
+        switch ($option){
+            case 'items':
+                $bills = $user->getMyDebtorsBills();
+                break;
+            case 'users':
+                $bills = $user->getMyDebtorsByUsers();
+                break;
+            case 'picnics':
+                $bills = $user->getMyDebtorsByUsers();
+                break;
+            default:
+                $bills = $user->getMyDebtorsBills();
         }
 
-        return view('front.debtors')->with(['bills' => $debtorsBills]);
+        return view('front.debtors')->with(['bills' => $bills]);
     }
 
     public function getAll()

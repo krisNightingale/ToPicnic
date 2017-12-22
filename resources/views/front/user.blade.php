@@ -148,6 +148,41 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-4 col-md-5">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Friends</h4>
+                            </div>
+                            <div class="content">
+                                <ul class="list-unstyled team-members">
+                                    @foreach($friends as $friend)
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <div class="avatar">
+                                                    <img src="{{ asset('img/faces/face-1.jpg')}}" alt="Avatar" class="img-circle img-no-padding img-responsive">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                {{$friend->name}}
+                                                <br />
+                                                <span class="text-muted"><small>{{'@'.$friend->nickname}}</small></span>
+                                            </div>
+
+                                            <div class="col-xs-3 text-right">
+                                                <a href="{{url('/user/'.$friend->id)}}">
+                                                    <btn class="btn btn-sm btn-success btn-icon">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </btn>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>

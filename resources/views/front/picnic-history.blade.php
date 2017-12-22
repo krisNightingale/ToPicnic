@@ -11,7 +11,7 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a href="{{ url('/') }}">
                         <i class="ti-bag"></i>
                         <p>My picnics</p>
@@ -47,7 +47,7 @@
                         <p>My debtors</p>
                     </a>
                 </li>
-                <li class="active-pro">
+                <li class="active active-pro">
                     <a href="{{ url('/picnic/history')}}">
                         <i class="ti-archive"></i>
                         <p>Picnic history</p>

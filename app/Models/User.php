@@ -133,4 +133,28 @@ class User extends Authenticatable
         }
         return $names;
     }
+
+    public function getMyDebtorsBills()
+    {
+        return DB::table('items')
+            ->join('bills', 'items.id', '=', 'bills.item_id')
+            ->join('users', 'users.id', '=', 'bills.payer_id')
+            ->select('users.id', 'users.name', 'users.nickname', 'bills.amount as price', 'bills.is_paid', 'items.name as item_name')
+            ->where('items.responsible_id', '=', $this->id)
+            ->where('bills.is_paid', '<>', true)
+            ->get()->all();
+    }
+
+    public function getMyDebtorsByUsers()
+    {
+        return DB::table('items')
+            ->join('bills', 'items.id', '=', 'bills.item_id')
+            ->join('users', 'users.id', '=', 'bills.payer_id')
+            ->select('users.id', 'users.name', 'users.nickname', DB::raw('sum(amount) as price'),
+                DB::raw("concat(count(items.id),' ','item(s)') as item_name"))
+            ->where('items.responsible_id', '=', $this->id)
+            ->where('bills.is_paid', '<>', true)
+            ->groupBy('payer_id')
+            ->get()->all();
+    }
 }

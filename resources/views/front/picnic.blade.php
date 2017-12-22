@@ -94,7 +94,7 @@
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
-                                <li><a href="#"><i class="ti-settings"></i> Settings</a></li>
+                                <li><a href="{{ url('/user/me') }}"><i class="ti-settings"></i> Settings</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -104,7 +104,9 @@
                         <p style="padding-top: 10px;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{date("D M j G:i", strtotime($picnic->start_time->toDateTimeString()))}}</p>
                     </div>
                     <div class="col-md-8 col-sm-8" >
-                        <p style="padding-top: 10px;"><i class="fa fa-users" aria-hidden="true"></i> {{$picnic->membersCount()}} members</p>
+                        <a href="{{ url('picnic/'.$picnic->id.'/members') }}" style="color: #66615B;">
+                            <p style="padding-top: 10px;"><i class="fa fa-users" aria-hidden="true"></i> {{$picnic->membersCount()}} members</p>
+                        </a>
                     </div>
                 </div>
                 <div class="row">
@@ -159,7 +161,7 @@
                                         <div class="row">
                                             <div class="col-xs-12">
                                                 <div class="stats text-center">
-                                                    <p><a href="#">{{$item->getResponsible()->nickname}}</a></p>
+                                                    <p><a href="{{ url('/user/'.$item->getResponsible()->id) }}">{{$item->getResponsible()->nickname}}</a></p>
                                                 </div>
                                             </div>
                                         </div>

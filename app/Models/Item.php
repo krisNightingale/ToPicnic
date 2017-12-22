@@ -54,6 +54,16 @@ class Item extends Model
 		return $this->hasMany(Bill::class);
 	}
 
+	public function getNonPaidBills()
+    {
+	    return $this->bills()->where('is_paid', '=', false)->get()->all();
+    }
+
+    public function getPaidBills()
+    {
+        return $this->bills()->where('is_paid', '=', true)->get()->all();
+    }
+
 	public function getResponsibleNickname()
     {
         return $this->responsible()->get()->first()->nickname;

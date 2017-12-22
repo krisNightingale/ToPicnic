@@ -99,7 +99,9 @@
                         <p style="padding-top: 10px;"><i class="fa fa-clock-o" aria-hidden="true"></i> {{date("D M j G:i", strtotime($picnic->start_time->toDateTimeString()))}}</p>
                     </div>
                     <div class="col-md-8 col-sm-8" >
-                        <p style="padding-top: 10px;"><i class="fa fa-users" aria-hidden="true"></i> {{$picnic->membersCount()}} members</p>
+                        <a href="{{ url('picnic/'.$picnic->id.'/members') }}" style="color: #66615B;">
+                            <p style="padding-top: 10px;"><i class="fa fa-users" aria-hidden="true"></i> {{$picnic->membersCount()}} members</p>
+                        </a>
                     </div>
                 </div>
                 <div class="row">

@@ -99,6 +99,13 @@
 
         <div class="content">
             <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-sm-12" style="height: 50px;">
+                        <a href="{{ url('/user/debtors?option=items') }}"><button class="btn btn-success">Items</button></a>
+                        <a href="{{ url('/user/debtors?option=users') }}"><button class="btn btn-warning">Users</button></a>
+                        <a href="{{ url('/user/debtors?option=picnics') }}"><button class="btn btn-danger">Picnics</button></a>
+                    </div>
+                </div>
 
                 <div class="row">
                     @foreach($bills as $bill)
@@ -108,8 +115,10 @@
                                     <div class="row">
                                         <div class="col-xs-6">
                                             <div>
-                                                <h5 style="font-size: 1.4em; margin-top: 17px;">{{ $bill->getPayerNickname() }}</h5>
-                                                <h5><i class="fa fa-money" aria-hidden="true"></i> {{ intval($bill->amount) }}</h5>
+                                                <a href="{{ url('/user/'.$bill->id) }}" style="color: #777;">
+                                                    <h5 style="font-size: 1.4em; margin-top: 17px;">{{ $bill->nickname }}</h5>
+                                                </a>
+                                                <h5><i class="fa fa-money" aria-hidden="true"></i> {{ intval($bill->price) }}</h5>
                                             </div>
                                         </div>
                                         <div class="col-xs-6">
@@ -121,13 +130,11 @@
                                                 </div>
                                                 <div class="col-xs-7">
                                                     <div class="icon-big">
-                                                        @if($bill->is_paid)
-                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                        @else
+
                                                             <a href="{{ url('/bill/'.$bill->id.'/paid') }}" style="color: #252422;">
                                                                 <i class="fa fa-square-o" aria-hidden="true"></i>
                                                             </a>
-                                                        @endif
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -139,7 +146,7 @@
                                     <div class="footer">
                                         <hr />
                                         <div class="stats">
-                                            <i class="ti-star"></i> for {{ $bill->getItemName() }}
+                                            <i class="ti-star"></i> for {{ $bill->item_name }}
                                         </div>
                                     </div>
                                 </div>

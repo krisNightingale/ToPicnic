@@ -37,12 +37,12 @@ class PicnicController extends Controller
         if (!empty($keyword)) {
             $picnics = $user->picnics()->where('name', 'LIKE', "%$keyword%")
                 ->where('start_time', '<', now())
-                ->orderBy('start_time', 'asc')
+                ->orderBy('start_time', 'desc')
                 ->paginate($perPage);
         } else {
             $picnics = $user->picnics()
                 ->where('start_time', '<', now())
-                ->orderBy('start_time', 'asc')
+                ->orderBy('start_time', 'desc')
                 ->paginate($perPage);
         }
 
