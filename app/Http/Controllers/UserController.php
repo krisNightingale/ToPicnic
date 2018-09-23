@@ -67,9 +67,6 @@ class UserController extends Controller
             case 'users':
                 $bills = $user->getMyDebtorsByUsers();
                 break;
-            case 'picnics':
-                $bills = $user->getMyDebtorsByUsers();
-                break;
             default:
                 $bills = $user->getMyDebtorsBills();
         }

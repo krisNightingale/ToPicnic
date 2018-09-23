@@ -103,7 +103,6 @@
                     <div class="col-lg-12 col-sm-12" style="height: 50px;">
                         <a href="{{ url('/user/debtors?option=items') }}"><button class="btn btn-success">Items</button></a>
                         <a href="{{ url('/user/debtors?option=users') }}"><button class="btn btn-warning">Users</button></a>
-                        <a href="{{ url('/user/debtors?option=picnics') }}"><button class="btn btn-danger">Picnics</button></a>
                     </div>
                 </div>
 
